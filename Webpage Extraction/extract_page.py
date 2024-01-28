@@ -13,26 +13,24 @@ def fetch_html_content(url):
 
 
 def extract_webpage(data):
-    result = ""
-    tag = ""
+    result = ""  # to accumulate the extracted information
+    tag = ""     # to accumulate html tags
     isTitle = False
     isBody = False
     isTagOpen = False
     
-    for i in range(len(data)):
+    for i in range(len(data)): #loop over give urls data character wise
         if data[i] == '<':
             isTagOpen = True
             
         elif data[i] == '>':
             isTagOpen = False
 
-        if isTagOpen :
+        if isTagOpen :  # Whenever tag is opened keep adding
             tag += data[i]
             
-        elif not isTagOpen:
-            checkLinks(tag)
-            # if tag != "":
-            #     print(tag)
+        elif not isTagOpen: 
+            checkLinks(tag) # Checking links/urls in every tag
             if tag == '<title':
                 isTitle = True
             elif tag == '</title':
@@ -42,15 +40,16 @@ def extract_webpage(data):
             elif tag == '</body':
                 isBody = False
                 
+            # if either it is title or body, then start adding it into result accumulator
             if isBody or isTitle :
                 ### uncomment it for better look
                 # if not (data[i] == " " and result[-1] == " "):
                 #     if data[i] not in ['>']:
                 #         result = result + data[i]
                 
-                if data[i] not in ['\r','\n','>']:
-                    result = result + data[i]
-            tag = ""
+                if data[i] not in ['\r','\n','>']: # Removing the new line , exra spaces and closing tag
+                    result = result + data[i]      # Adding to result
+            tag = ""   # Once a tag closed, renew it to store another next one
     
     return result
 
