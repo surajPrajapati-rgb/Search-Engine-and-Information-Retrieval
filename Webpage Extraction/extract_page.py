@@ -42,13 +42,9 @@ def extract_webpage(data):
                 
             # if either it is title or body, then start adding it into result accumulator
             if isBody or isTitle :
-                ### uncomment it for better look
-                # if not (data[i] == " " and result[-1] == " "):
-                #     if data[i] not in ['>']:
-                #         result = result + data[i]
-                
                 if data[i] not in ['\r','\n','>']: # Removing the new line , exra spaces and closing tag
-                    result = result + data[i]      # Adding to result
+                    if not (data[i] == " " and result[-1] == " "):
+                        result = result + data[i]      # Adding to result
             tag = ""   # Once a tag closed, renew it to store another next one
     
     return result
@@ -61,5 +57,5 @@ def checkLinks(tag):
         second_quatation = tag.find('"',first_quatation+1 )
         print(tag[first_quatation +1 :second_quatation])
 
-if __name__ == '__main__':
-    print(extract_webpage(fetch_html_content(url)))
+
+print(extract_webpage(fetch_html_content(url)))
