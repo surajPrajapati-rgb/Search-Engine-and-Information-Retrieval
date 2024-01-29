@@ -1,7 +1,5 @@
 import requests
-
-url = input("Enter the url to extract links, title and body : ")
-
+import sys
 
 def fetch_html_content(url):
     try:
@@ -10,7 +8,6 @@ def fetch_html_content(url):
     except requests.exceptions.RequestException as e:
         print(f"Error fetching content: {e}")
         return None
-
 
 def extract_webpage(data):
     result = ""  # to accumulate the extracted information
@@ -57,5 +54,5 @@ def checkLinks(tag):
         second_quatation = tag.find('"',first_quatation+1 )
         print(tag[first_quatation +1 :second_quatation])
 
-
+url = sys.argv[1]
 print(extract_webpage(fetch_html_content(url)))
