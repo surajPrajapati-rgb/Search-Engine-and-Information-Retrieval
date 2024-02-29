@@ -2,7 +2,7 @@ import sys
 import extract_webpage as ew
 
 if len(sys.argv) != 3:
-    print("Run code as simhash.py args1 args2 as ")
+    print("Run code as calculateSimilarity.py args1 args2 as ")
     sys.exit(1)
 
 arg1 = sys.argv[1]
@@ -18,12 +18,14 @@ def remove_panctuation(original):
 
 def word_frequency(content):
     data = content.split()
+    n = len(data)
     word_fre_dict = {}
-    for word in data:
+    for word in range(n):
+        ngram = " ".join(data[word:word+5])
         if word not in word_fre_dict:
-            word_fre_dict[word] = 1
+            word_fre_dict[ngram] = 1
         else:
-            word_fre_dict[word] += 1
+            word_fre_dict[ngram] += 1
     return word_fre_dict
 
 def computeHashValue(word_dict):
