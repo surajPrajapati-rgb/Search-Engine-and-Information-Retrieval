@@ -57,7 +57,6 @@ def computeSimHash(original_text):
             else:
                 weight -= hash64value[j][0]
         weight_sum_vector.append(weight)
-    # print(weight_sum_vector)
     fingerprint_vector = [1 if weight > 0 else 0 for weight in weight_sum_vector]
     return fingerprint_vector
 
@@ -67,8 +66,7 @@ def compareSimhashes(simhash1,simhash2):
         if simhash1[i] == simhash2[i]:
             commonBits+=1
 
-    return f"The Common bits in simhashes is : {commonBits}"
-
+    return f"The Common bits percentage in simhashes is : {100*commonBits/64} %"
 
 if __name__ == "__main__":
     textcontent1 = ew.get_text_from_web(arg1)
@@ -77,4 +75,3 @@ if __name__ == "__main__":
     simhash2 = computeSimHash(textcontent2)
     print(compareSimhashes(simhash1,simhash2))
 
-    
