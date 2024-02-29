@@ -1,5 +1,7 @@
 import sys
+# sys.path.append("WebScrapping")
 import extract_webpage as ew
+
 
 if len(sys.argv) != 3:
     print("Run code as calculateSimilarity.py args1 args2 as ")

@@ -7,7 +7,7 @@ def fetch_html_content(url):
     except requests.exceptions.RequestException as e:
         print(f"Error fetching content: {e}")
         return None
-    
+
 def extract_title(html_content):
     start = html_content.find("<title")
     end = html_content.find("</title")
