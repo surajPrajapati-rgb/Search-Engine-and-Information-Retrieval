@@ -24,7 +24,7 @@ def word_frequency(content):
     n = len(data)
     word_fre_dict = {}
     for word in range(0, n, n_overlapping): # steping with n overlapping
-        ngram_data = " ".join(data[word:word+ngram]) # slicing with - gram
+        ngram_data = " ".join(data[word:word+ngram]) # slicing with 2 gram
         if word not in word_fre_dict:
             word_fre_dict[ngram_data] = 1
         else:
