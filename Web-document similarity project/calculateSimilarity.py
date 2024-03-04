@@ -18,15 +18,17 @@ def remove_panctuation(original):
     return cleaned_data
 
 def word_frequency(content):
+    ngram = 5
+    n_overlapping = 2
     data = content.split()
     n = len(data)
     word_fre_dict = {}
-    for word in range(n):
-        ngram = " ".join(data[word:word+5])
+    for word in range(0, n, n_overlapping): # steping with n overlapping
+        ngram_data = " ".join(data[word:word+ngram]) # slicing with - gram
         if word not in word_fre_dict:
-            word_fre_dict[ngram] = 1
+            word_fre_dict[ngram_data] = 1
         else:
-            word_fre_dict[ngram] += 1
+            word_fre_dict[ngram_data] += 1
     return word_fre_dict
 
 def computeHashValue(word_dict):
@@ -41,7 +43,7 @@ def computeHashValue(word_dict):
             hash += ascii_value*(p**j)  # hash(s) = s[0] + s[1].p  + s[2].p^2   + ..... + s[n-1].p^(n-1)   mod n
         hash = hash % m
         binary_string = bin(hash)[2:]  # converting hash into binary value  
-        padded_binary_string = binary_string.zfill(64) # making the binary value with 64 bit by filling the extra 0 in front
+        padded_binary_string = binary_string.zfill(64) # (Zerofill) making the binary value with 64 bit by filling the extra 0 in front
         words_with_hash[word] = (word_dict[word],padded_binary_string)
     return words_with_hash
 
@@ -75,4 +77,3 @@ if __name__ == "__main__":
     textcontent2 = ew.get_text_from_web(arg2)
     simhash2 = computeSimHash(textcontent2)
     print(compareSimhashes(simhash1,simhash2))
-
