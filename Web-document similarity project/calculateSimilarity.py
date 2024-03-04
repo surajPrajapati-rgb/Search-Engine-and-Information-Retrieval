@@ -1,5 +1,4 @@
 import sys
-# sys.path.append("WebScrapping")
 import extract_webpage as ew
 
 if len(sys.argv) != 3:
@@ -8,8 +7,10 @@ if len(sys.argv) != 3:
 
 arg1 = sys.argv[1]
 arg2 = sys.argv[2]
+ngram = int(input("Enter the n gram value: "))
+n_overlapping = int(input("Enter the number of overlapping value: "))
 
-punctuation = ['.', ',', ':', ';',  '/', '\\', '!', '?', '(',')', '[', ']', '{', '}', '|', '&', '^', '%', '<', '>', '~', '#']
+punctuation = ['.', ',', ':', ';',  '-','/', '\\', '\'','!', '?', '(',')', '+','[', ']', '{', '}', '|', '&', '^', '%', '<', '>', '~', '#']
 def remove_panctuation(original):
     cleaned_data = ""
     for i in original:
@@ -18,14 +19,12 @@ def remove_panctuation(original):
     return cleaned_data
 
 def word_frequency(content):
-    ngram = 5
-    n_overlapping = 2
     data = content.split()
     n = len(data)
     word_fre_dict = {}
-    for word in range(0, n, n_overlapping): # steping with n overlapping
-        ngram_data = " ".join(data[word:word+ngram]) # slicing with 2 gram
-        if word not in word_fre_dict:
+    for word in range(0, n, ngram - n_overlapping):   # steping with ngram - n_overlapping steps for n overlapping
+        ngram_data = " ".join(data[word:word+ngram])  # n gram collector
+        if ngram_data not in word_fre_dict:
             word_fre_dict[ngram_data] = 1
         else:
             word_fre_dict[ngram_data] += 1
@@ -40,11 +39,11 @@ def computeHashValue(word_dict):
         n=len(word)
         for j in range(n):
             ascii_value = ord(word[j])
-            hash += ascii_value*(p**j)  # hash(s) = s[0] + s[1].p  + s[2].p^2   + ..... + s[n-1].p^(n-1)   mod n
+            hash += ascii_value*(p**j)  # hash(s) = s[0] + s[1].p  + s[2].p^2   + ..... + s[n-1].p^(n-1)
         hash = hash % m
         binary_string = bin(hash)[2:]  # converting hash into binary value  
-        padded_binary_string = binary_string.zfill(64) # (Zerofill) making the binary value with 64 bit by filling the extra 0 in front
-        words_with_hash[word] = (word_dict[word],padded_binary_string)
+        binary_string_64_bit = binary_string.zfill(64) # (Zerofill) making the binary value with 64 bit by filling the extra 0 in front
+        words_with_hash[word] = (word_dict[word], binary_string_64_bit)
     return words_with_hash
 
 def computeSimHash(original_text):
@@ -73,7 +72,7 @@ def compareSimhashes(simhash1,simhash2):
 
 if __name__ == "__main__":
     textcontent1 = ew.get_text_from_web(arg1)
-    simhash1 = computeSimHash(textcontent1)
+    simhash1 = computeSimHash(textcontent1.lower())
     textcontent2 = ew.get_text_from_web(arg2)
-    simhash2 = computeSimHash(textcontent2)
+    simhash2 = computeSimHash(textcontent2.lower())
     print(compareSimhashes(simhash1,simhash2))
