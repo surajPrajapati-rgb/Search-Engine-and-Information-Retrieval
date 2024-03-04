@@ -2,7 +2,6 @@ import sys
 # sys.path.append("WebScrapping")
 import extract_webpage as ew
 
-
 if len(sys.argv) != 3:
     print("Run code as calculateSimilarity.py args1 args2 as ")
     sys.exit(1)
@@ -39,10 +38,10 @@ def computeHashValue(word_dict):
         n=len(word)
         for j in range(n):
             ascii_value = ord(word[j])
-            hash += ascii_value*(p**j)  # s[n-1].p^(n-1)
+            hash += ascii_value*(p**j)  # hash(s) = s[0] + s[1].p  + s[2].p^2   + ..... + s[n-1].p^(n-1)   mod n
         hash = hash % m
-        binary_string = bin(hash)[2:]
-        padded_binary_string = binary_string.zfill(64)
+        binary_string = bin(hash)[2:]  # converting hash into binary value  
+        padded_binary_string = binary_string.zfill(64) # making the binary value with 64 bit by filling the extra 0 in front
         words_with_hash[word] = (word_dict[word],padded_binary_string)
     return words_with_hash
 
