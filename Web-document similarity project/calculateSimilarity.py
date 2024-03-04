@@ -9,6 +9,9 @@ arg1 = sys.argv[1]
 arg2 = sys.argv[2]
 ngram = int(input("Enter the n gram value: "))
 n_overlapping = int(input("Enter the number of overlapping value: "))
+if ngram <= n_overlapping:
+    raise ValueError("overlapping value must be less than n gram value!")
+
 
 punctuation = ['.', ',', ':', ';',  '-','/', '\\', '\'','!', '?', '(',')', '+','[', ']', '{', '}', '|', '&', '^', '%', '<', '>', '~', '#']
 def remove_panctuation(original):
